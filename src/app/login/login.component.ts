@@ -42,15 +42,6 @@ export class LoginComponent implements OnInit {
             err => { console.log('error', err); }
             );
 
-        // console.log(form.value.user, form.value.pass);
-        console.log(localStorage.getItem('isLoggedin'));
-        if (form.value.user === 'rishi' && form.value.pass === '12345') {
-            localStorage.setItem('isLoggedin', 'true');
-            this.router.navigate(['/dashboard']);
-        } else {
-            localStorage.setItem('isLoggedin', 'false');
-        }
-
     }
 
     onLoggedin(form: NgForm) {
