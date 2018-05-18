@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
 import { NgForm } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
     selector: 'app-login',
@@ -11,7 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-    constructor(public router: Router) {
+    constructor(public router: Router, private http: HttpClient) {
     }
     ngOnInit() {
         localStorage.setItem('isLoggedin', 'false');
@@ -20,7 +21,28 @@ export class LoginComponent implements OnInit {
 
     onSubmit(form: NgForm) {
 
-        console.log(form.value.user, form.value.pass);
+        const headers = new HttpHeaders({ 'Content-Type': 'application/xml' }).set('Accept', 'text/xml');
+        // tslint:disable:max-line-length
+        const body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v1="com/Schemas/UserWrapperPayload/V1"><soapenv:Header/><soapenv:Body><v1:ValidationRequest><v1:username>' + form.value.user + '</v1:username><v1:password>' + form.value.pass + '</v1:password><v1:application>ProcessScanTool</v1:application><v1:subapplication>ProcessScanTool</v1:subapplication></v1:ValidationRequest></soapenv:Body></soapenv:Envelope>';
+        this.http.post('http://tst-ibs.corporate.ge.com/UserAuthenticationService/ValidateUser', body, { responseType: 'text' }).subscribe
+
+            (data => {
+                console.log('success', data);
+                let loc = data.indexOf('<ns1:isAuthenticated>') + 21;
+                let endloc = data.indexOf('</ns1:isAuthenticated>');
+                let str = data.substring(loc, endloc);
+                console.log(str);
+                if (str === 'true') {
+                    localStorage.setItem('isLoggedin', 'true');
+                    this.router.navigate(['/dashboard']);
+                } else {
+                    localStorage.setItem('isLoggedin', 'false');
+                }
+            },
+            err => { console.log('error', err); }
+            );
+
+        // console.log(form.value.user, form.value.pass);
         console.log(localStorage.getItem('isLoggedin'));
         if (form.value.user === 'rishi' && form.value.pass === '12345') {
             localStorage.setItem('isLoggedin', 'true');
