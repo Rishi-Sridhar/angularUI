@@ -1,0 +1,29 @@
+<div [@routerTransition] align="center">
+    <div class="row">
+        <div class="col-lg-6">
+
+            <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+                <div class="form-content">
+                    <div class="form-group">
+                        <input type="text" ng-model="name" class="form-control input-underline input-lg" ngModel id="svnurl" name="svnurl" placeholder="SVN URL">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="name" class="form-control input-underline input-lg" ngModel id="user" name="user" placeholder="SVN Username">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control input-underline input-lg" id="pass" name="pass" ngModel placeholder="Password">
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Build</button>
+            </form>
+
+            <!-- <button (click)='onClick()'>Build</button> -->
+            <br>
+            <a href='http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastSuccessfulBuild/artifact/output/*.xlsx'>Click me</a>
+            <button (click)='onClicky()'>Clicky</button>
+
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
