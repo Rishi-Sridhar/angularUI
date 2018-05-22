@@ -28,9 +28,9 @@ export class LoginComponent implements OnInit {
 
             (data => {
                 console.log('success', data);
-                let loc = data.indexOf('<ns1:isAuthenticated>') + 21;
-                let endloc = data.indexOf('</ns1:isAuthenticated>');
-                let str = data.substring(loc, endloc);
+                const loc = data.indexOf('<ns1:isAuthenticated>') + 21;
+                const endloc = data.indexOf('</ns1:isAuthenticated>');
+                const str = data.substring(loc, endloc);
                 console.log(str);
                 if (str === 'true') {
                     localStorage.setItem('isLoggedin', 'true');

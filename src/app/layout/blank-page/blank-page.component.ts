@@ -3,9 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { NgForm } from '@angular/forms';
+import { ResponseContentType } from '@angular/http';
+
 
 import 'rxjs/add/observable/interval';
+import { HttpserviceService } from './httpservice.service';
 
+// tslint:disable:max-line-length
 
 @Component({
     selector: 'app-blank-page',
@@ -14,12 +18,96 @@ import 'rxjs/add/observable/interval';
 })
 export class BlankPageComponent implements OnInit {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private service: HttpserviceService, private httpold: Http) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        const downloadUrl = 'blank';
+    }
+    getJenkinsXML(no) {
+        this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/' + no + '/api/xml', { responseType: 'text' })
+            .subscribe(
+                res1 => {
+                    console.log('Success ' + res1);
+                    const res2 = res1;
+                    const loc1 = res1.indexOf('<result>') + 8;
+                    const endloc1 = res1.indexOf('</result>');
+                    const str1 = res1.substring(loc1, endloc1);
+                    console.log('firstStr', str1);
+                    console.log('before loc2:', res1);
+
+                    if (str1 === 'SUCCESS') {
+                        alert(str1);
+
+                        this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/' + no + '/logText/progressiveText?start=0', { responseType: 'text' })
+                            .subscribe(
+                                res => {
+                                    console.log('Success ' + res);
+                                    const loc = res.indexOf('Total time:') + 12;
+                                    const endloc = res.indexOf('-');
+                                    const str = res.substr(loc, endloc - 1);
+                                    console.log('secondStr', str);
+                                    if (str !== '') {
+                                        alert(str);
+                                        const loc2 = res2.indexOf('<relativePath>') + 14;
+                                        const endloc2 = res2.indexOf('</relativePath>');
+                                        const op = res2.substring(loc2, endloc2);
+                                        console.log('download loc: ', loc2, endloc2, op);
+                                        this.download(no, op);
+
+                                        //  sub.unsubscribe();
+                                    } else {
+                                        console.log('fail', str);
+                                    }
+                                },
+                                err => {
+                                    console.log(err);
+                                    alert(JSON.stringify(err));
+                                }
+                            );
+                        //  sub.unsubscribe();
+                    } else {
+                        console.log(str1);
+                    }
+                },
+                err1 => {
+                    console.log(err1);
+                    alert(JSON.stringify(err1));
+                }
+            );
+    }
+
+    download(no, op) {
+        console.log(no, op);
+
+        const downloadUrl = 'http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/' + no + '/artifact/' + op;
+
+        const filename = op.substring(7, );
+
+        this.httpold.get(downloadUrl, {
+            headers: null,
+            responseType: ResponseContentType.Blob
+        }).map(res => new Blob([res.blob()], { type: 'application/vnd.ms-excel' }))
+
+            .subscribe(
+                data => {
+                    console.log('Download success', data);
+                    let blob = data;
+                    let a = document.createElement("a");
+                    a.href = URL.createObjectURL(blob);
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                },
+                err1 => {
+                    console.log('Download failed', err1);
+                    alert(JSON.stringify(err1));
+                }
+            );
+    }
+
+
 
     onSubmit(form: NgForm) {
-
         console.log(form.value.svnurl, form.value.user, form.value.pass);
         this.onClick(form.value.svnurl, form.value.user, form.value.pass);
     }
@@ -32,12 +120,43 @@ export class BlankPageComponent implements OnInit {
         this.http.post('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/buildWithParameters?token=remoteToken&svnurl=' + svnurl + '&username=' + user + '&password=' + pass, null, { headers: {} })
             .subscribe(
                 res => {
-                    console.log('Success ' + res);
+                    console.log('Success post ' + res);
                 },
                 err => {
                     console.log('Error occured ' + err);
                 }
             );
+        let i = 0;
+        const initTimer = Observable.timer(0, 1000);
+
+        const initSub: Subscription = initTimer.subscribe(tick => {
+            i++;
+            console.log('delay');
+            if (i === 25) {
+                initSub.unsubscribe();
+                console.log('Reesh');
+                this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastBuild/buildNumber', { responseType: 'text' })
+                    .subscribe(
+                        res => {
+                            console.log('Success get' + res);
+                            this.getJenkinsXML(res);
+                        },
+                        err => {
+                            console.log('Error occured ' + err);
+                        }
+                    );
+            }
+        });
+
+        /*  this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastBuild/buildNumber', { responseType: 'text' })
+              .subscribe(
+                  res => {
+                      console.log('Success ' + res);
+                  },
+                  err => {
+                      console.log('Error occured ' + err);
+                  }
+              );*/
 
 
         /*let headerss = new Headers();
@@ -47,14 +166,14 @@ export class BlankPageComponent implements OnInit {
         let options = new RequestOptions({ headers: headerss });*/
 
         /*
-
+     
           let headers = new HttpHeaders({
               'svnurl': 'test',
               'username': 'test',
               'password': 'test'
           });
-
-
+     
+     
           // tslint:disable:max-line-length
           // 'http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/buildWithParameters?token=remoteToken&svnurl=https://openge.ge.com/svn/soacoe/tags/Power/WellandMES/AprilRelease/DPERP-WELLANDMES-Integrations/&username=rishi.sridhar&password=rishi.sridhar'
           this.http.post('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/buildWithParameters?token=remoteToken', httpOptions).subscribe(
@@ -62,21 +181,53 @@ export class BlankPageComponent implements OnInit {
           );*/
     }
 
+
+
     onClicky() {
 
         let i = 1;
-        const timer = Observable.timer(0, 1000);
+        const initTimer = Observable.timer(0, 1500);
 
-        const sub: Subscription = timer.subscribe(tick => {
-            i++;
-            console.log('loggyyyy');
-            if (i === 10) {
-                sub.unsubscribe();
-            }
-
+        const initSub: Subscription = initTimer.subscribe(tick => {
+            initSub.unsubscribe();
+            console.log('1.5 sec');
         });
+
+        this.service.getReq()
+            .subscribe(
+                res => {
+                    console.log('Success ' + res);
+                    const loc = res.indexOf('Finished:') + 9;
+                    // const endloc = data.indexOf('</ns1:isAuthenticated>');
+                    const str = res.substr(loc, );
+                    console.log('Stttring', str);
+                    if (str !== '') {
+                        alert('Done');
+                        //  sub.unsubscribe();
+                    }
+                },
+                err => {
+                    console.log(err);
+                    alert(JSON.stringify(err));
+                }
+            );
+
+        /*   const timer = Observable.timer(0, 1000);
+     
+           const sub: Subscription = timer.subscribe(tick => {
+               i++;
+               console.log(i);
+               // this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastBuild/logText/progressiveText?start=0', { responseType: 'text' })
+     
+               console.log('loggyyyy');
+               if (i === 10) {
+                   sub.unsubscribe();
+               }
+     
+           });*/
+
         // tslint:disable:max-line-length
-        this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastBuild/api/xml', { responseType: 'text' })
+        /*this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastBuild/api/xml', { responseType: 'text' })
             .subscribe(
                 res => {
                     console.log('Success ' + res);
@@ -85,6 +236,6 @@ export class BlankPageComponent implements OnInit {
                     console.log(err);
                     alert(JSON.stringify(err));
                 }
-            );
+            );*/
     }
 }

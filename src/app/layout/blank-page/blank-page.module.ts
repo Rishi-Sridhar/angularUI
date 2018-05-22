@@ -8,9 +8,11 @@ import { BlankPageComponent } from './blank-page.component';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpserviceService } from './httpservice.service';
 
 @NgModule({
     imports: [CommonModule, BlankPageRoutingModule, HttpClientModule, HttpModule, FormsModule],
-    declarations: [BlankPageComponent]
+    declarations: [BlankPageComponent],
+    providers: [HttpserviceService]
 })
 export class BlankPageModule { }
