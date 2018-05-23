@@ -12,6 +12,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
 
+    isFail = false;
+    isSuccess = false;
+    isLoad = false;
+
     constructor(public router: Router, private http: HttpClient) {
     }
     ngOnInit() {
@@ -20,6 +24,11 @@ export class LoginComponent implements OnInit {
     }
 
     onSubmit(form: NgForm) {
+        this.isFail = false;
+        this.isSuccess = false;
+
+        this.isLoad = true;
+
 
         const headers = new HttpHeaders({ 'Content-Type': 'application/xml' }).set('Accept', 'text/xml');
         // tslint:disable:max-line-length
@@ -27,6 +36,8 @@ export class LoginComponent implements OnInit {
         this.http.post('http://tst-ibs.corporate.ge.com/UserAuthenticationService/ValidateUser', body, { responseType: 'text' }).subscribe
 
             (data => {
+                this.isLoad = false;
+
                 console.log('success', data);
                 const loc = data.indexOf('<ns1:isAuthenticated>') + 21;
                 const endloc = data.indexOf('</ns1:isAuthenticated>');
@@ -42,12 +53,20 @@ export class LoginComponent implements OnInit {
                 // console.log(sessionStorage.getItem("username"));
                 if (str === 'true') {
                     sessionStorage.setItem('isLoggedin', 'true');
+                    this.isSuccess = true;
                     this.router.navigate(['/dashboard']);
                 } else {
                     sessionStorage.setItem('isLoggedin', 'false');
+                    this.isLoad = false;
+                    this.isFail = true;
                 }
             },
-            err => { console.log('error', err); }
+            err => {
+                this.isLoad = false;
+
+                console.log('error', err);
+                alert('Network issue. Please ensure you are connected to GE VPN or the network is working properly.');
+            }
             );
 
     }

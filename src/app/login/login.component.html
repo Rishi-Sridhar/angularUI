@@ -18,6 +18,16 @@
                 &nbsp;
                 <!--a class="btn rounded-btn" [routerLink]="['/signup']">Register</a-->
             </form>
+            <br>
+            <div [hidden]="!isLoad">Please wait.....</div>
+            <br>
+            <br>
+            <div class="alert alert-success" [hidden]="!isSuccess">
+                Login successful! Redirecting.....
+            </div>
+            <div class="alert alert-danger" [hidden]="!isFail">
+                Login failed. Please check your credentials.
+            </div>
         </div>
     </div>
 </div>

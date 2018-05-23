@@ -20,6 +20,7 @@ export class BlankPageComponent implements OnInit {
     val = 0;
     isFail = false;
     isSuccess = false;
+    buildText = '';
 
     constructor(private http: HttpClient, private service: HttpserviceService, private httpold: Http) { }
     ngOnInit() {
@@ -42,7 +43,7 @@ export class BlankPageComponent implements OnInit {
                     console.log('before loc2:', res1);
 
                     if (str1 === 'SUCCESS') {
-                        alert(str1);
+                        //  alert(str1);
                         this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/' + no + '/logText/progressiveText?start=0', { responseType: 'text' })
                             .subscribe(
                                 res => {
@@ -53,7 +54,8 @@ export class BlankPageComponent implements OnInit {
                                     console.log('secondStr', str);
                                     if (str !== '') {
                                         this.isSuccess = true;
-                                        alert(str);
+                                        //  alert(str);
+                                        this.buildText = str;
                                         const loc2 = res2.indexOf('<relativePath>') + 14;
                                         const endloc2 = res2.indexOf('</relativePath>');
                                         const op = res2.substring(loc2, endloc2);
@@ -107,7 +109,7 @@ export class BlankPageComponent implements OnInit {
                 },
                 err1 => {
                     console.log('Download failed', err1);
-                    alert(JSON.stringify(err1));
+                    alert(JSON.stringify('Download failed : ', err1));
                 }
             );
     }
@@ -119,21 +121,23 @@ export class BlankPageComponent implements OnInit {
         this.isFail = false;
         this.isSuccess = false;
         //    console.log(form.value.svnurl, form.value.user, form.value.pass);
-        this.onClick(form.value.svnurl, form.value.user, form.value.pass);
+        this.onClick(form.value.svnurl, form.value.user, form.value.pass, form.value.integration);
     }
 
     // https://openge.ge.com/svn/soacoe/tags/Power/WellandMES/AprilRelease/DPERP-WELLANDMES-Integrations/
 
-    onClick(svnurl, user, pass) {
+    onClick(svnurl, user, pass, integration) {
         console.log('method triggered');
         // tslint:disable:max-line-length
-        this.http.post('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/buildWithParameters?token=remoteToken&svnurl=' + svnurl + '&username=' + user + '&password=' + pass, null, { headers: {} })
+        this.http.post('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/buildWithParameters?token=remoteToken&svnurl=' + svnurl + '&username=' + user + '&password=' + pass + '&integration=' + integration, null, { headers: {} })
             .subscribe(
                 res => {
                     console.log('Success post ' + res);
                 },
                 err => {
                     console.log('Error occured ' + err);
+                    alert('Network Communication issue. Please ensure you are connected to GE VPN or the network is functioning properly.');
+                    return;
                 }
             );
         let i = 0;
@@ -154,6 +158,8 @@ export class BlankPageComponent implements OnInit {
                         },
                         err => {
                             console.log('Error occured ' + err);
+                            alert('Network Communication issue. Please ensure you are connected to GE VPN or the network is functioning properly.');
+                            return;
                         }
                     );
             }
@@ -194,59 +200,59 @@ export class BlankPageComponent implements OnInit {
 
 
 
-    onClicky() {
+    /*   onClicky() {
+  
+          let i = 1;
+          const initTimer = Observable.timer(0, 1500);
+  
+          const initSub: Subscription = initTimer.subscribe(tick => {
+              initSub.unsubscribe();
+              console.log('1.5 sec');
+          });
+  
+          this.service.getReq()
+              .subscribe(
+                  res => {
+                      console.log('Success ' + res);
+                      const loc = res.indexOf('Finished:') + 9;
+                      // const endloc = data.indexOf('</ns1:isAuthenticated>');
+                      const str = res.substr(loc, );
+                      console.log('Stttring', str);
+                      if (str !== '') {
+                          alert('Done');
+                          //  sub.unsubscribe();
+                      }
+                  },
+                  err => {
+                      console.log(err);
+                      alert(JSON.stringify(err));
+                  }
+              );
+   */
+    /*   const timer = Observable.timer(0, 1000);
+ 
+       const sub: Subscription = timer.subscribe(tick => {
+           i++;
+           console.log(i);
+           // this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastBuild/logText/progressiveText?start=0', { responseType: 'text' })
+ 
+           console.log('loggyyyy');
+           if (i === 10) {
+               sub.unsubscribe();
+           }
+ 
+       });*/
 
-        let i = 1;
-        const initTimer = Observable.timer(0, 1500);
-
-        const initSub: Subscription = initTimer.subscribe(tick => {
-            initSub.unsubscribe();
-            console.log('1.5 sec');
-        });
-
-        this.service.getReq()
-            .subscribe(
-                res => {
-                    console.log('Success ' + res);
-                    const loc = res.indexOf('Finished:') + 9;
-                    // const endloc = data.indexOf('</ns1:isAuthenticated>');
-                    const str = res.substr(loc, );
-                    console.log('Stttring', str);
-                    if (str !== '') {
-                        alert('Done');
-                        //  sub.unsubscribe();
-                    }
-                },
-                err => {
-                    console.log(err);
-                    alert(JSON.stringify(err));
-                }
-            );
-
-        /*   const timer = Observable.timer(0, 1000);
-     
-           const sub: Subscription = timer.subscribe(tick => {
-               i++;
-               console.log(i);
-               // this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastBuild/logText/progressiveText?start=0', { responseType: 'text' })
-     
-               console.log('loggyyyy');
-               if (i === 10) {
-                   sub.unsubscribe();
-               }
-     
-           });*/
-
-        // tslint:disable:max-line-length
-        /*this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastBuild/api/xml', { responseType: 'text' })
-            .subscribe(
-                res => {
-                    console.log('Success ' + res);
-                },
-                err => {
-                    console.log(err);
-                    alert(JSON.stringify(err));
-                }
-            );*/
-    }
+    // tslint:disable:max-line-length
+    /*this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/lastBuild/api/xml', { responseType: 'text' })
+        .subscribe(
+            res => {
+                console.log('Success ' + res);
+            },
+            err => {
+                console.log(err);
+                alert(JSON.stringify(err));
+            }
+        );*/
 }
+
