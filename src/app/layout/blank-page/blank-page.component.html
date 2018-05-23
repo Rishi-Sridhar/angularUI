@@ -1,29 +1,46 @@
-<div [@routerTransition] align="center">
-    <div class="row">
-        <div class="col-lg-6">
+<!-- <div [@routerTransition]>
+ -->
+<div class="row">
+    <div class="col-lg-6">
 
-            <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-                <div class="form-content">
-                    <div class="form-group">
-                        <input type="text" ng-model="name" class="form-control input-underline input-lg" ngModel id="svnurl" name="svnurl" placeholder="SVN URL">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" ng-model="name" class="form-control input-underline input-lg" ngModel id="user" name="user" placeholder="SVN Username">
-                    </div>
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm" align="center">
+            <div class="form-content">
+                <div class="form-group">
+                    <input type="text" ng-model="name" class="form-control input-underline input-lg" ngModel id="svnurl" name="svnurl" placeholder="SVN URL">
+                </div>
+                <div class="form-group">
+                    <input type="text" ng-model="name" class="form-control input-underline input-lg" ngModel id="user" name="user" placeholder="SVN Username">
+                </div>
 
-                    <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="pass" name="pass" ngModel placeholder="Password">
-                    </div>
+                <div class="form-group">
+                    <input type="password" class="form-control input-underline input-lg" id="pass" name="pass" ngModel placeholder="Password">
                 </div>
                 <button class="btn btn-primary" type="submit">Build</button>
-            </form>
+            </div>
 
-            <!-- <button (click)='onClick()'>Build</button> -->
-            <br>
-            <!-- <a [attr.href]="downloadUrl">Click me</a> -->
-            <!--    <button (click)='onClicky()'>Clicky</button> -->
+        </form>
 
+        <!-- <button (click)='onClick()'>Build</button> -->
+        <br>
+        <!-- <a [attr.href]="downloadUrl">Click me</a> -->
+        <!--    <button (click)='onClicky()'>Clicky</button> -->
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" [style.width]="val + '%'" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+        <br>
+        <br>
+        <div class="alert alert-success" [hidden]="!isSuccess">
+            <strong>SUCCESS!</strong> Build completed successfully. Your TDD will get downloaded automatically...
+        </div>
+        <div class="alert alert-danger" [hidden]="!isFail">
+            <strong>FAILURE.</strong> Build failed. Please check your input parameters.
+        </div>
+
+        <!-- <div class="progress">
+                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0"
+                    aria-valuemax="100"></div>
+            </div> -->
     </div>
-    <!-- /.row -->
 </div>
+<!-- /.row -->
+<!-- </div> -->

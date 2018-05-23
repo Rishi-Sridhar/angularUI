@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
     constructor(public router: Router, private http: HttpClient) {
     }
     ngOnInit() {
-        localStorage.setItem('isLoggedin', 'false');
-        // console.log(localStorage.getItem('isLoggedin'));
+        sessionStorage.setItem('isLoggedin', 'false');
+        // console.log(sessionStorage.getItem('isLoggedin'));
     }
 
     onSubmit(form: NgForm) {
@@ -31,12 +31,20 @@ export class LoginComponent implements OnInit {
                 const loc = data.indexOf('<ns1:isAuthenticated>') + 21;
                 const endloc = data.indexOf('</ns1:isAuthenticated>');
                 const str = data.substring(loc, endloc);
-                console.log(str);
+                // console.log(str);
+                const loc2 = data.indexOf('<ns1:UserName>') + 14;
+                const endloc2 = data.indexOf('</ns1:UserName>');
+                const str2 = data.substring(loc2, endloc2);
+
+                // console.log(str2);
+                // Store
+                sessionStorage.setItem('username', str2);
+                // console.log(sessionStorage.getItem("username"));
                 if (str === 'true') {
-                    localStorage.setItem('isLoggedin', 'true');
+                    sessionStorage.setItem('isLoggedin', 'true');
                     this.router.navigate(['/dashboard']);
                 } else {
-                    localStorage.setItem('isLoggedin', 'false');
+                    sessionStorage.setItem('isLoggedin', 'false');
                 }
             },
             err => { console.log('error', err); }
@@ -46,6 +54,6 @@ export class LoginComponent implements OnInit {
 
     onLoggedin(form: NgForm) {
         console.log(form.value.user, form.value.pass);
-        localStorage.setItem('isLoggedin', 'true');
+        sessionStorage.setItem('isLoggedin', 'true');
     }
 }

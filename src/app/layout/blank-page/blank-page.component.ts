@@ -17,11 +17,17 @@ import { HttpserviceService } from './httpservice.service';
     styleUrls: ['./blank-page.component.scss']
 })
 export class BlankPageComponent implements OnInit {
+    val = 0;
+    isFail = false;
+    isSuccess = false;
 
     constructor(private http: HttpClient, private service: HttpserviceService, private httpold: Http) { }
-
     ngOnInit() {
         const downloadUrl = 'blank';
+        // this.val = 70;
+        console.log(this.val);
+        console.log(this.isFail);
+
     }
     getJenkinsXML(no) {
         this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/' + no + '/api/xml', { responseType: 'text' })
@@ -37,7 +43,6 @@ export class BlankPageComponent implements OnInit {
 
                     if (str1 === 'SUCCESS') {
                         alert(str1);
-
                         this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/' + no + '/logText/progressiveText?start=0', { responseType: 'text' })
                             .subscribe(
                                 res => {
@@ -47,6 +52,7 @@ export class BlankPageComponent implements OnInit {
                                     const str = res.substr(loc, endloc - 1);
                                     console.log('secondStr', str);
                                     if (str !== '') {
+                                        this.isSuccess = true;
                                         alert(str);
                                         const loc2 = res2.indexOf('<relativePath>') + 14;
                                         const endloc2 = res2.indexOf('</relativePath>');
@@ -67,6 +73,7 @@ export class BlankPageComponent implements OnInit {
                         //  sub.unsubscribe();
                     } else {
                         console.log(str1);
+                        this.isFail = true;
                     }
                 },
                 err1 => {
@@ -108,7 +115,10 @@ export class BlankPageComponent implements OnInit {
 
 
     onSubmit(form: NgForm) {
-        console.log(form.value.svnurl, form.value.user, form.value.pass);
+        this.val = 0;
+        this.isFail = false;
+        this.isSuccess = false;
+        //    console.log(form.value.svnurl, form.value.user, form.value.pass);
         this.onClick(form.value.svnurl, form.value.user, form.value.pass);
     }
 
@@ -131,6 +141,7 @@ export class BlankPageComponent implements OnInit {
 
         const initSub: Subscription = initTimer.subscribe(tick => {
             i++;
+            this.val += 4;
             console.log('delay');
             if (i === 25) {
                 initSub.unsubscribe();
