@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { NgForm } from '@angular/forms';
@@ -17,6 +17,7 @@ import { HttpserviceService } from './httpservice.service';
     styleUrls: ['./blank-page.component.scss']
 })
 export class BlankPageComponent implements OnInit {
+
     val = 0;
     isFail = false;
     isSuccess = false;
