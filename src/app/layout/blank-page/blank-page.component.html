@@ -6,21 +6,25 @@
         <form (ngSubmit)="onSubmit(f)" #f="ngForm" align="center">
             <div class="form-content">
                 <div class="form-group">
-                    <input type="text" class="form-control input-underline input-lg" ngModel id="svnurl" name="svnurl" placeholder="SVN URL">
+                    <input type="text" class="form-control input-underline input-lg" ngModel id="svnurl" name="svnurl" placeholder="SVN URL"
+                        required>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control input-underline input-lg" ngModel id="user" name="user" placeholder="SVN Username">
+                    <input type="text" class="form-control input-underline input-lg" ngModel id="user" name="user" placeholder="SVN Username"
+                        required>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" class="form-control input-underline input-lg" id="pass" name="pass" ngModel placeholder="Password">
+                    <input type="password" class="form-control input-underline input-lg" id="pass" name="pass" ngModel placeholder="Password"
+                        required>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" class="form-control input-underline input-lg" ngModel id="integration" name="integration" placeholder="Integration">
+                    <input type="text" class="form-control input-underline input-lg" ngModel id="integration" name="integration" placeholder="Integration"
+                        required>
                 </div>
 
-                <button class="btn btn-primary" type="submit">Build</button>
+                <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Build</button>
             </div>
 
         </form>
