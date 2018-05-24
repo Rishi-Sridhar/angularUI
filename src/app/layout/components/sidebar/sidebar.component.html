@@ -107,7 +107,7 @@
             <div class="nested-menu">
                 <a class="list-group-item" (click)="addExpandClass('profile')">
                     <span>
-                        <i class="fa fa-user"></i>&nbsp; John Smith</span>
+                        <i class="fa fa-user"></i>&nbsp; {{username}}</span>
                 </a>
                 <li class="nested" [class.expand]="showMenu === 'profile'">
                     <ul class="submenu">

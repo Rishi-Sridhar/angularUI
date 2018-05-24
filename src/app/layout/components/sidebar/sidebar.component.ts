@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
+    username;
     isActive: boolean = false;
     showMenu: string = '';
     pushRightClass: string = 'push-right';
@@ -27,6 +28,13 @@ export class SidebarComponent {
                 this.toggleSidebar();
             }
         });
+    }
+
+    // tslint:disable-next-line:use-life-cycle-interface
+    ngOnInit(): void {
+
+        this.username = sessionStorage.getItem('username');
+
     }
 
     eventCalled() {

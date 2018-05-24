@@ -4,12 +4,14 @@ $topnav-background-color: #222;
 }
 .login-page {
     position: absolute;
+    background-image: url('../../assets/images/loginImage.jpg');
+    background-size:cover;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     overflow: auto;
-    background: $topnav-background-color;
+  //  background: $topnav-background-color;
     text-align: center;
     color: #fff;
     padding: 3em;
@@ -39,13 +41,18 @@ $topnav-background-color: #222;
         -webkit-border-radius: 50px;
         border-radius: 50px;
         color: rgba(255, 255, 255, 0.8);
-        background: $topnav-background-color;
+        background: #222;
         border: 2px solid rgba(255, 255, 255, 0.8);
         font-size: 18px;
         line-height: 40px;
         padding: 0 25px;
     }
-    .rounded-btn:hover,
+    .rounded-btn:hover {
+        background-color: green;
+    }
+    .rounded-btn:hover:disabled {
+        background-color: #c2bbba;
+    }
     .rounded-btn:focus,
     .rounded-btn:active,
     .rounded-btn:visited {
