@@ -46,8 +46,11 @@
                 </ul>
             </li>
         </div> -->
-        <a [routerLink]="['/process-scan-tool']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-file-o"></i>&nbsp;{{ 'Process Scan Tool' | translate }}
+        <a [routerLink]="['/createPO']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;{{ 'Create Purchase Order' | translate }}
+        </a>
+        <a [routerLink]="['/listOfPO']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;{{ 'List Purchase Order' | translate }}
         </a>
         <!--  <a class="list-group-item more-themes" href="">
             {{ 'More Theme' | translate }}

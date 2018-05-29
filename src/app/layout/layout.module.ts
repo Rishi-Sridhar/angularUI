@@ -16,6 +16,6 @@ import { ListComponent } from './list/list.component';
         TranslateModule,
         NgbDropdownModule.forRoot()
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ListComponent]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent]
 })
-export class LayoutModule {}
+export class LayoutModule { }
