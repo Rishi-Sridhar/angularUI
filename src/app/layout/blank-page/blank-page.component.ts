@@ -45,22 +45,17 @@ export class BlankPageComponent implements OnInit {
          // this.val = 70;
          console.log(this.val);
          console.log(this.isFail);*/
-        //this.addFieldValue();
+        this.addFieldValue();
 
     }
-    addFieldValue(f: NgForm) {
-        console.log("rish", f.value.ponum);
-        // this.newAttribute.add(f.value.ponum);
-        this.fieldArray.push(f.value.ponum);
-        this.newAttribute = {};
-        console.log("addfieldvalue", this.fieldArray);
-    }
+
 
     deleteFieldValue(index) {
         this.fieldArray.splice(index, 1);
     }
 
     onSubmit(form: NgForm) {
+        console.log('called onsubmit');
         this.ponum = form.value.ponum;
         this.qty = form.value.qty;
         this.desc = form.value.desc;
@@ -69,6 +64,33 @@ export class BlankPageComponent implements OnInit {
         this.mamt = form.value.mamt;
         this.mino = form.value.mino;
         console.log(this.ponum, this.qty, this.desc, this.up, this.tamt, this.mamt, this.mino);
+        const body = {
+            "$class": "org.gesoa.ibs.PurchaseOrder",
+            "PONumber": this.ponum,
+            "OrderedQuantity": this.qty,
+            "Description": this.desc,
+            "UnitPrice": this.up,
+            "TotalAmount": this.tamt,
+            "POStatus": "NEW",
+            "buyer": "resource:org.gesoa.ibs.Party#2182",
+            "seller": "resource:org.gesoa.ibs.Party#2663"
+        };
+        this.http.post('http://localhost:3000/api/PurchaseOrder', body).subscribe(
+            res => {
+                console.log(res);
+                // console.log(JSON.stringify(res));
+            },
+            err => {
+                console.log(err);
+            }
+        );
+    }
+    addFieldValue() {
+        // console.log("rish", f.value.ponum);
+        // this.newAttribute.add(f.value.ponum);
+        this.fieldArray.push(this.newAttribute);
+        //  this.newAttribute = {};
+        console.log("addfieldvalue", this.fieldArray);
     }
     /*  getJenkinsXML(no) {
           this.http.get('http://alpmdmappdvn01.corporate.ge.com:8008/job/GEProcessScanTool/' + no + '/api/xml', { responseType: 'text' })

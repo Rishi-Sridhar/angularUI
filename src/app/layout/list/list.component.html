@@ -32,6 +32,7 @@
       <th>Description</th>
       <th>UnitPrice</th>
       <th>TotalAmount</th>
+      <th></th>
     </tr>
     <tr *ngFor="let val of resp; let i=index">
       <td>{{i+1}}</td>
@@ -41,7 +42,7 @@
       <td>{{val.UnitPrice}}</td>
       <td>{{val.TotalAmount}}</td>
       <td>
-        <a class="list-group-item" style="cursor: pointer" (click)="onDetails(i)">More</a>
+        <a class="list-group-item" style="cursor: pointer" (click)="onDetails(i)">Details</a>
 
       </td>
       <!--  <td>{{val.MatchedAmount}}</td>
