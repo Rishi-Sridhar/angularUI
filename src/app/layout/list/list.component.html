@@ -1,3 +1,116 @@
-<p>
-  list works!
-</p>
+<div [@routerTransition]>
+  <!--  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let val of resp; let i=index">
+          {{i}}
+        </li>
+        <li class="list-group-item" *ngFor="let val of resp">
+          {{val.PONumber}}
+        </li>
+      </ul>
+      <ul>
+        <li>item</li>
+      </ul>
+      <ul>
+        <li>item</li>
+      </ul>
+    </div>
+  </div> -->
+
+
+  <table class="table table-bordered table-hover table-condensed table-responsive">
+    <!-- <ng-container *ngFor="let val of resp; let i=index"> -->
+
+    <h2>List of Purchase Orders
+    </h2>
+
+    <tr>
+      <th>SR.No</th>
+      <th>PONumber</th>
+      <th>OrderedQuantity</th>
+      <th>Description</th>
+      <th>UnitPrice</th>
+      <th>TotalAmount</th>
+    </tr>
+    <tr *ngFor="let val of resp; let i=index">
+      <td>{{i+1}}</td>
+      <td>{{val.PONumber}}</td>
+      <td>{{val.OrderedQuantity}}</td>
+      <td>{{val.Description}}</td>
+      <td>{{val.UnitPrice}}</td>
+      <td>{{val.TotalAmount}}</td>
+      <td>
+        <a class="list-group-item" style="cursor: pointer" (click)="onDetails(i)">More</a>
+
+      </td>
+      <!--  <td>{{val.MatchedAmount}}</td>
+      <td>{{val.Matchedinvoicenumbers}}</td>
+      <td>{{val.UnmatchedAmount}}</td>
+      <td>{{val.Lastmatchstatus}}</td>
+      <td>{{val.POStatus}}</td>
+      <td>{{val.buyer}}</td>
+      <td>{{val.seller}}</td>
+ -->
+
+    </tr>
+
+    <!--     </ng-container>
+ -->
+  </table>
+
+  <table [hidden]="!hide">
+    <tr>
+      <td>PONumber</td>
+      <td>{{ponum}}</td>
+    </tr>
+    <tr>
+      <td>OrderedQuantity</td>
+      <td>{{qty}}</td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td>{{desc}}</td>
+    </tr>
+    <tr>
+      <td>UnitPrice</td>
+      <td>{{up}}</td>
+    </tr>
+    <tr>
+      <td>TotalAmount</td>
+      <td>{{tamt}}</td>
+    </tr>
+    <tr>
+      <td>MatchedAmount</td>
+      <td>{{mamt}}</td>
+    </tr>
+    <tr>
+      <td>Matchedinvoicenumbers</td>
+      <td>{{mino}}</td>
+    </tr>
+    <tr>
+      <td>UnmatchedAmount</td>
+      <td>{{umamt}}</td>
+    </tr>
+    <tr>
+      <td>Lastmatchstatus</td>
+      <td>{{lms}}</td>
+    </tr>
+    <tr>
+      <td>POStatus</td>
+      <td>{{pos}}</td>
+    </tr>
+    <tr>
+      <td>buyer</td>
+      <td>{{buy}}</td>
+    </tr>
+    <tr>
+      <td>seller</td>
+      <td>{{sel}}</td>
+    </tr>
+    <tr>
+
+    </tr>
+  </table>
+
+</div>

@@ -1,146 +1,46 @@
-h1 {
-    color: black;
+.user-input-wrp {
+	position: relative;
+	width: 50%;
 }
-.row{
-    //background: url(assets/images/download.jpg);
-    background-size: cover;
-    position: relative;
-   
+.user-input-wrp .inputText{
+	width: 100%;
+	outline: none;
+	border:none;
+	border-bottom: 1px solid #777;
+	transition: border-width 0.5s ease-in-out;
+
+}
+.user-input-wrp .inputText:invalid {
+	box-shadow: none !important;
+}
+.user-input-wrp .inputText:focus{
+	border-color: blue;
+	border-width: medium medium 2px;
+
+}
+.user-input-wrp .floating-label {
+	position: absolute;
+	pointer-events: none;
+	top: 1px;
+	left: 5px;
+	transition: 0.2s ease all;
+}
+.user-input-wrp input:focus ~ .floating-label,
+.user-input-wrp input:not(:focus):valid ~ .floating-label{
+	top: -17px;
+	left: 10px;
+	font-size: 13px;
+	opacity: 1;
 }
 
-.row:before{
-    content: "";
-    width: 1000%;
-    height: 900%;
-    background: rgb(112, 166, 231);
-    position: fixed;
-    top: 0;
-    left: 0;
-    opacity: 0.8;
+.center {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;  
+  }
+  .form-horizontal{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
 }
-.form-horizontal{
-    padding: 60px 40px 55px 40px;
-    margin-top: 40px;
-    background: #fff;
-    border-radius: 10px;
-    //text-align: 0 auto;
-    //width: 150%
-    
-    
-}
-.form-horizontal:before{
-    //content: "\f007";
-    font-family: fontawesome;
-    width: 100px;
-    height: 100px;
-    line-height: 96px;
-    border-radius: 50%;
-    border: 4px solid #fff;
-    background: #59aaf7;
-    font-size: 40px;
-    color: #fff;
-    text-align: center;
-    margin: 0 auto;
-    position: absolute;
-    top: -10px;
-    left: 0;
-    right: 0;
-}
-.form-horizontal .heading{
-    display: block;
-    font-size: 28px;
-    color: #597886;
-    text-transform: capitalize;
-    text-align: center;
-    margin-bottom: 20px;
-}
-.form-horizontal .form-group{
-    margin: 0 0 30px 0px;
-    position: relative;
-}
-.form-horizontal .form-group:last-child{ margin: 0; }
-.form-horizontal .form-control{
-    height: 40px;
-    border: 2px solid rgb(130, 182, 245);
-    border-radius: 5px;
-    box-shadow: none;
-    padding: 0 20px 0 26%;
-    font-size: 16px;
-    font-weight: bold;
-    color: #94abb6;
-    position: relative;
-    transition: all 0.3s ease 0s;
-    //vertical-align: 50px;
-}
-.form-horizontal .form-control:focus{
-    box-shadow: none;
-    outline: 0 none;
-}
-.form-horizontal .control-label{
-    width: 25%;
-    height: 36px;
-    line-height: 36px;
-    background: #f5ffff;
-    padding: 0;
-    font-size: 16px;
-    font-weight: bold;
-    color: #222;
-    text-transform: capitalize;
-    text-align: center;
-    border-right: 2px solid rgb(130, 182, 245);
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    z-index: 1;
-}
-.form-horizontal .btn,
-.form-horizontal .btn:focus{
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    padding: 0 30px;
-    background: #1467aa;
-    border: none;
-    border-radius: 6px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    text-transform: uppercase;
-    position: relative;
-}
-.form-horizontal .btn:hover:disabled{ background: #c2bbba; }
-.form-horizontal .btn:hover{ background: #3ecc62; }
-.form-horizontal .btn:before{
-   // content: "\f084";
-    font-family: 'FontAwesome';
-    position: absolute;
-    top: 0;
-    left: 30px;
-    font-size: 24px;
-    color: #fff;
-}
-.form-horizontal .signup,
-.form-horizontal .forgot-pass{
-    display: inline-block;
-    font-size: 17px;
-    font-weight: bold;
-    color: #3289db;
-}
-.form-horizontal .forgot-pass{
-    float: right;
-    color: #58aebc;
-}
-@media only screen and (max-width: 990px){
-    .form-horizontal:before{ top: -50px; }
-}
-@media only screen and (max-width: 480px){
-    .form-horizontal{ padding: 60px 20px 40px 20px; }
-    .form-horizontal .control-label{ font-size: 12px; }
-}
-
-/*.position{
-    margin-left: 7%;
-    margin-right: 7%;
-    //background-color: rgba(73, 130, 118, 0.9);
-
-}*/
