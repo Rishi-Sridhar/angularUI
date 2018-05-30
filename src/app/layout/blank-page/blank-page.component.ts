@@ -32,14 +32,32 @@ export class BlankPageComponent implements OnInit {
     mamt;
     mino;
 
+    rowval = 2;
+
+    private fieldArray: Array<any> = [];
+    private newAttribute: any = {};
+
+
+
     constructor(private http: HttpClient, private service: HttpserviceService, private httpold: Http) { }
     ngOnInit() {
         /* const downloadUrl = 'blank';
          // this.val = 70;
          console.log(this.val);
          console.log(this.isFail);*/
+        //this.addFieldValue();
 
+    }
+    addFieldValue(f: NgForm) {
+        console.log("rish", f.value.ponum);
+        // this.newAttribute.add(f.value.ponum);
+        this.fieldArray.push(f.value.ponum);
+        this.newAttribute = {};
+        console.log("addfieldvalue", this.fieldArray);
+    }
 
+    deleteFieldValue(index) {
+        this.fieldArray.splice(index, 1);
     }
 
     onSubmit(form: NgForm) {
